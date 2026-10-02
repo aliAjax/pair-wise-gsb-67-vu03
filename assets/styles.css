@@ -16,3 +16,78 @@ a { text-decoration: none; }
 .edit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }.edit-grid label { display: grid; gap: 6px; font-size: 12px; color: #65736f; }.detail-title { display: flex; justify-content: space-between; align-items: center; }.detail-title span { color: #74817e; font-size: 11px; }.detail-title h3 { margin: 5px 0 0; }
 .reply-list { display: grid; gap: 8px; margin: 15px 0; }.reply-list article { border-left: 3px solid #2c6757; background: #f5f8f7; padding: 11px; display: grid; grid-template-columns: 90px 120px 1fr 220px; align-items: center; gap: 8px; }.reply-list p { margin: 0; font-size: 12px; }.reply-list span { color: #74817e; font-size: 10px; }
 .decision-band { display: grid; grid-template-columns: 1fr auto auto auto; gap: 8px; align-items: center; border-top: 1px solid #dfe5e3; padding-top: 14px; }.preflight-panel { display: flex; justify-content: space-between; align-items: center; margin: 0 0 18px; border-left: 4px solid #d2a43c; }.preflight-panel span, .preflight-panel strong, .preflight-panel p { display: block; }.preflight-panel span { color: #758480; font-size: 11px; }.preflight-panel strong { margin: 5px 0; }.preflight-panel p { color: #9e3e38; font-size: 11px; margin: 3px 0; }
+
+/* ---------- 树形放行链 ---------- */
+.chain-spacer { flex: 1; }
+.chain-overview { display: flex; justify-content: space-between; align-items: center; background: white; border: 1px solid #dbe2e0; border-left: 4px solid #2c6757; padding: 12px 16px; margin-bottom: 14px; cursor: pointer; }
+.chain-overview div { display: flex; align-items: center; gap: 10px; }
+.chain-overview span { color: #758480; font-size: 11px; }
+.chain-overview strong { font-size: 13px; color: #1b4338; }
+.head-actions { display: flex; gap: 8px; }
+.recovery-banner { display: flex; align-items: center; gap: 10px; background: #fdeceb; border: 1px solid #e0a39e; color: #8f2f28; padding: 9px 14px; font-size: 12px; margin-bottom: 14px; border-radius: 4px; }
+.first-problem-banner { background: white; border: 1px solid #dbe2e0; border-left: 4px solid #c25044; padding: 14px 18px; margin-bottom: 14px; display: flex; flex-direction: column; gap: 8px; }
+.first-problem-banner.all-pass { border-left-color: #2c6757; flex-direction: row; align-items: center; gap: 10px; color: #2c6757; }
+.fpb-title { font-weight: 700; font-size: 14px; color: #9e3e38; }
+.fpb-path { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+.fpb-path span { padding: 3px 9px; background: #f3f6f5; border-radius: 3px; color: #5c6b67; }
+.fpb-path span.active { background: #c25044; color: white; font-weight: 700; }
+.fpb-path i { color: #98a4a0; }
+.fpb-basis { display: flex; align-items: center; gap: 10px; font-size: 12px; color: #47544f; flex-wrap: wrap; }
+.fpb-basis small { color: #8a968f; }
+.chain-tree { background: white; border: 1px solid #dbe2e0; margin-bottom: 16px; }
+.chain-row { border-bottom: 1px solid #edf1f0; }
+.chain-row:last-child { border-bottom: 0; }
+.chain-row.st-block { background: #fdf6f5; }
+.chain-row.st-temp { background: #fdf9ef; }
+.chain-row.st-pass .chain-line1 strong { color: #2c6757; }
+.chain-row.is-first { box-shadow: inset 3px 0 0 #c25044; }
+.chain-row-wrap { border-bottom: 1px solid #f1f4f3; }
+.chain-toggle { width: 26px; border: 0; background: transparent; color: #8a968f; cursor: pointer; float: left; height: 46px; }
+.chain-main { overflow: hidden; padding: 8px 12px 8px 0; }
+.chain-line1 { display: flex; align-items: center; gap: 9px; }
+.chain-line1 small { color: #98a4a0; font-size: 10px; }
+.chain-line2 { display: flex; align-items: center; gap: 9px; margin-top: 5px; font-size: 11px; color: #6d7c78; flex-wrap: wrap; }
+.chain-first b { color: #9e3e38; }
+.chain-path { color: #8a968f; }
+.chain-evidence { color: #5c6b67; }
+.chain-basis-count { color: #98a4a0; }
+.chain-ok { color: #2c6757; }
+.chain-detail { margin-top: 8px; border-top: 1px dashed #dbe2e0; padding-top: 8px; display: grid; gap: 6px; }
+.chain-reason { display: flex; align-items: center; gap: 9px; font-size: 11px; background: #f6f8f7; padding: 6px 9px; }
+.chain-reason.rs-block { background: #fbeceb; }
+.chain-reason.rs-temp { background: #fbf3e2; }
+.chain-reason span { color: #5c6b67; } .chain-reason small { color: #98a4a0; margin-left: auto; }
+.chain-pass-box { background: #eef5f2; border-left: 3px solid #2c6757; padding: 8px 10px; font-size: 11px; }
+.chain-pass-box p { margin: 4px 0; color: #47544f; }
+.chain-pass-box ul { margin: 4px 0 0; padding-left: 18px; color: #9e3e38; }
+.pass-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 16px; }
+.pass-list-panel, .repair-panel { background: white; border: 1px solid #dbe2e0; padding: 14px 16px; }
+.pass-list-panel h3, .repair-panel h3 { margin: 0 0 12px; font-size: 15px; }
+.pass-card { border: 1px solid #e2e7e5; padding: 11px 13px; margin-bottom: 10px; border-left: 4px solid #98a4a0; }
+.pass-card.pass-临时放行中 { border-left-color: #d2a43c; background: #fdf9ef; }
+.pass-card.pass-待确认 { border-left-color: #4a7fa5; background: #eef4f8; }
+.pass-card.pass-已续期, .pass-card.pass-正式放行 { border-left-color: #2c6757; background: #f2f8f5; }
+.pass-card.pass-已失效 { border-left-color: #c25044; background: #faf0ef; opacity: 0.92; }
+.pass-card-head { display: flex; align-items: center; gap: 9px; }
+.pass-card-head small { color: #98a4a0; font-size: 10px; }
+.pass-card p { font-size: 12px; color: #47544f; margin: 8px 0; }
+.pass-invalid { font-size: 11px; color: #9e3e38; background: #fbeceb; padding: 6px 9px; margin-bottom: 6px; }
+.pass-changes { margin: 4px 0; padding-left: 18px; font-size: 11px; color: #8f6a1c; }
+.pass-history { margin: 6px 0; padding-left: 18px; display: grid; gap: 3px; }
+.pass-history li { font-size: 11px; color: #5c6b67; }
+.pass-history small { color: #98a4a0; margin-right: 6px; }
+.pass-history span { font-weight: 700; margin-right: 6px; }
+.pass-history em { font-style: normal; color: #74817e; }
+.pass-actions { display: flex; align-items: center; gap: 10px; margin-top: 6px; }
+.pass-hint { font-size: 11px; color: #2f5f7c; }
+.repair-item { border-bottom: 1px solid #eef1f0; padding: 8px 0; font-size: 12px; }
+.repair-item p { margin: 3px 0; color: #5c6b67; }
+.repair-item small { color: #98a4a0; }
+.muted { color: #98a4a0; font-size: 12px; }
+.apply-note { font-size: 11px; color: #8a968f; background: #f6f8f7; padding: 8px 10px; }
+.node-head-tags { display: flex; align-items: center; gap: 8px; }
+.node-first-problem { display: flex; align-items: center; gap: 10px; background: white; border: 1px solid #e0a39e; border-left: 4px solid #c25044; padding: 9px 13px; margin-bottom: 12px; font-size: 12px; color: #5c6b67; flex-wrap: wrap; }
+.cert-item-grid { grid-template-columns: 90px 1fr 130px 130px 46px 90px !important; }
+.defect-line { display: flex; align-items: center; gap: 9px; border-bottom: 1px solid #eef1f0; padding: 8px 0; font-size: 12px; }
+.defect-line small { color: #98a4a0; }
+.edit-grid label.full { grid-column: 1 / -1; }

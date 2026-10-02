@@ -1,8 +1,7 @@
 node_modules/
 .nuxt/
 .output/
-.angular/
-.next/
-out/
+.data/
 dist/
-*.tsbuildinfo
+*.log
+.DS_Store

@@ -29,9 +29,9 @@ function submitReply() {
 }
 function submitRetest() {
   if (!selected.value || !retest.result) return
-  store.addRetest(selected.value.id, retest.result, retest.passed)
-  toast.add({ severity: retest.passed ? 'success' : 'warn', summary: retest.passed ? '复验通过，缺陷已关闭' : '复验未通过，返回整改', life: 2500 })
-  retestVisible.value = false
+  const result = store.addRetest(selected.value.id, retest.result, retest.passed)
+  toast.add({ severity: result.ok ? (retest.passed ? 'success' : 'warn') : 'error', summary: result.ok ? (retest.passed ? '复验通过，缺陷已关闭，放行链已逐级重算' : '复验未通过，返回整改') : result.message, life: 3200 })
+  if (result.ok) retestVisible.value = false
 }
 function decide(status: '已关闭' | '带条件通过' | '整改中') {
   if (!selected.value) return

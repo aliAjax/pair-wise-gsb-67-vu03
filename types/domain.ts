@@ -66,6 +66,69 @@ export interface Plant {
   version: number
 }
 
+export type PassState = '临时放行中' | '待确认' | '已续期' | '正式放行' | '已失效'
+
+export interface PassHistoryEntry {
+  at: string
+  action: string
+  operator: string
+  detail: string
+}
+
+export interface ChangedSource {
+  key: string
+  title: string
+  before: string
+  after: string
+}
+
+export interface ReleasePass {
+  id: string
+  branchRootId: string
+  branchName: string
+  owner: string
+  reason: string
+  issuedAt: string
+  state: PassState
+  /** 签发时分支子树全部依据的版本/状态指纹 */
+  signatures: Record<string, string>
+  treeVersion: number
+  changedSources?: ChangedSource[]
+  invalidatedAt?: string
+  invalidBasis?: FirstProblem
+  history: PassHistoryEntry[]
+}
+
+export interface RepairNote {
+  nodeId: string
+  nodeName: string
+  oldParentId: string | null
+  newParentId: string | null
+  reason: string
+  repairedAt: string
+}
+
+export type ChainState = 'pass' | 'temp' | 'block'
+export type ReasonKind = '验收项' | '证书' | '缺陷'
+
+export interface ChainReason {
+  kind: ReasonKind
+  sourceId: string
+  nodeId: string
+  title: string
+  detail: string
+  version: number
+  state: ChainState
+}
+
+export interface FirstProblem {
+  nodeId: string
+  nodeName: string
+  /** 从分支根到问题节点的完整路径 */
+  path: string[]
+  reason: ChainReason
+}
+
 export interface AuditEntry {
   id: string
   entityId: string
