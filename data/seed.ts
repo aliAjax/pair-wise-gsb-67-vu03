@@ -35,7 +35,27 @@ export const seedEquipment: EquipmentNode[] = [
   },
   {
     id: 'EQ-CB111', parentId: 'EQ-INV11', name: '1-1-1汇流箱', type: '汇流箱', code: 'CB-1-1-1', status: '待验收',
-    items: [{ id: 'IT-C1', standard: '组串极性及开路电压正常', method: '逐路测量并核对设计', condition: '辐照度300-800W/m²', status: '待检查', measured: '', evidence: '', version: 1 }], certificates: []
+    items: [{ id: 'IT-C1', standard: '组串极性及开路电压正常', method: '逐路测量并核对设计', condition: '辐照度300-800W/m²', status: '待检查', measured: '', evidence: '', version: 1 }],
+    certificates: [{ id: 'C-C1', name: '汇流箱型式试验报告', issuer: '鉴衡认证', expiresAt: '2027-03-15', version: 1, verified: false }]
+  },
+  {
+    id: 'EQ-INV12', parentId: 'EQ-AR1', name: '1-2号逆变器', type: '逆变器', code: 'INV-1-2', status: '已验收',
+    items: [
+      { id: 'IT-I3', standard: '通信点表与SCADA一致', method: '逐点置数核对', condition: '调度数据网连通', status: '合格', measured: '126/126点一致', evidence: '点表核对记录-1-2.xlsx', version: 1 },
+      { id: 'IT-I4', standard: '额定功率下转换效率不低于98.5%', method: '功率分析仪连续测量30分钟', condition: '辐照度≥700W/m²，功率稳定', status: '合格', measured: '98.72%', evidence: '效率测试曲线-1-2.csv', version: 1 }
+    ],
+    certificates: [{ id: 'C-I2', name: '逆变器低电压穿越证书', issuer: '中国电科院', expiresAt: '2028-06-30', version: 1, verified: true }]
+  },
+  {
+    id: 'EQ-CB121', parentId: 'EQ-INV12', name: '1-2-1汇流箱', type: '汇流箱', code: 'CB-1-2-1', status: '已验收',
+    items: [{ id: 'IT-C2', standard: '组串极性及开路电压正常', method: '逐路测量并核对设计', condition: '辐照度300-800W/m²', status: '合格', measured: '16/16路正常', evidence: '组串测量记录-1-2-1.xlsx', version: 1 }],
+    certificates: [{ id: 'C-C2', name: '汇流箱型式试验报告', issuer: '鉴衡认证', expiresAt: '2027-03-15', version: 1, verified: true }]
+  },
+  {
+    // 旧导入数据缺少父级关系，由层级补齐逻辑挂接到最近的逆变器下
+    id: 'EQ-CB122', parentId: null, name: '1-2-2汇流箱', type: '汇流箱', code: 'CB-1-2-2', status: '验收中',
+    items: [{ id: 'IT-C3', standard: '组串极性及开路电压正常', method: '逐路测量并核对设计', condition: '辐照度300-800W/m²', status: '合格', measured: '16/16路正常', evidence: '组串测量记录-1-2-2.xlsx', version: 1 }],
+    certificates: [{ id: 'C-C3', name: '汇流箱型式试验报告', issuer: '鉴衡认证', expiresAt: '2027-03-15', version: 1, verified: true }]
   }
 ]
 

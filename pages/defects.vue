@@ -17,6 +17,8 @@ const toast = useToast()
 const selected = ref<AcceptanceDefect | null>(null)
 const replyVisible = ref(false)
 const retestVisible = ref(false)
+const reopenVisible = ref(false)
+const reopenNote = ref('')
 const reply = reactive<PartyReply>({ party: '设备厂家', owner: '', content: '', evidence: '', repliedAt: new Date().toISOString() })
 const retest = reactive({ result: '', passed: true, note: '' })
 const rows = computed(() => store.defects.filter((item) => !store.keyword || `${item.id} ${item.title} ${item.owner} ${item.status}`.includes(store.keyword)))
@@ -29,9 +31,15 @@ function submitReply() {
 }
 function submitRetest() {
   if (!selected.value || !retest.result) return
-  store.addRetest(selected.value.id, retest.result, retest.passed)
-  toast.add({ severity: retest.passed ? 'success' : 'warn', summary: retest.passed ? '复验通过，缺陷已关闭' : '复验未通过，返回整改', life: 2500 })
+  const result = store.addRetest(selected.value.id, retest.result, retest.passed)
+  toast.add({ severity: result.ok ? (retest.passed ? 'success' : 'warn') : 'error', summary: result.ok ? (retest.passed ? '复验通过，缺陷已关闭' : '复验未通过，返回整改') : '写入失败已回滚', detail: result.message, life: 2800 })
   retestVisible.value = false
+}
+function submitReopen() {
+  if (!selected.value) return
+  const result = store.reopenDefect(selected.value.id, reopenNote.value)
+  toast.add({ severity: result.ok ? 'warn' : 'error', summary: result.ok ? '缺陷已重新打开，放行链逐级失效' : result.message, detail: result.message, life: 3200 })
+  if (result.ok) reopenVisible.value = false
 }
 function decide(status: '已关闭' | '带条件通过' | '整改中') {
   if (!selected.value) return
@@ -50,11 +58,11 @@ function decide(status: '已关闭' | '带条件通过' | '整改中') {
       <Column field="severity" header="严重度"><template #body="{ data }"><Tag :value="data.severity" :severity="data.severity === '重大' ? 'danger' : 'warn'" /></template></Column>
       <Column field="owner" header="责任方" />
       <Column field="dueDate" header="截止" />
-      <Column header="状态"><template #body="{ data }"><Tag :value="data.status" :severity="data.status === '已关闭' ? 'success' : data.status === '带条件通过' ? 'info' : 'warn'" /></template></Column>
+      <Column header="状态"><template #body="{ data }"><Tag :value="data.status" :severity="data.status === '已关闭' ? 'success' : data.status === '带条件通过' ? 'info' : data.status === '重新打开' ? 'danger' : 'warn'" /></template></Column>
       <Column header="版本"><template #body="{ data }">V{{ data.version }}</template></Column>
     </DataTable>
     <div v-if="selected" class="detail-panel">
-      <div class="detail-title"><div><span>{{ selected.id }} · {{ selected.equipmentId }}</span><h3>{{ selected.title }}</h3></div><div><Button label="多方回复" outlined @click="replyVisible = true" /><Button label="联合复验" @click="retestVisible = true" /></div></div>
+      <div class="detail-title"><div><span>{{ selected.id }} · {{ selected.equipmentId }}</span><h3>{{ selected.title }}</h3></div><div><Button label="多方回复" outlined @click="replyVisible = true" /><Button label="联合复验" @click="retestVisible = true" /><Button v-if="['已关闭', '带条件通过'].includes(selected.status)" label="重新打开" severity="danger" outlined @click="reopenVisible = true" /></div></div>
       <div class="reply-list"><article v-for="item in selected.replies" :key="item.repliedAt"><Tag :value="item.party" /><strong>{{ item.owner }}</strong><p>{{ item.content }}</p><span>{{ item.evidence }} · {{ item.repliedAt.replace('T', ' ').slice(0, 16) }}</span></article></div>
       <div class="decision-band"><Textarea v-model="retest.note" rows="2" placeholder="验收决定说明，带条件接受时必须填写限制条件" /><Button label="通过并关闭" @click="decide('已关闭')" /><Button label="带条件接受" severity="secondary" outlined @click="decide('带条件通过')" /><Button label="退回整改" severity="danger" outlined @click="decide('整改中')" /></div>
     </div>
@@ -70,6 +78,10 @@ function decide(status: '已关闭' | '带条件通过' | '整改中') {
     <Dialog v-model:visible="retestVisible" header="登记联合复验" modal :style="{ width: '520px' }">
       <div class="edit-grid"><label>复验结果<Textarea v-model="retest.result" rows="4" /></label><label>结论<Select v-model="retest.passed" :options="[{ label: '通过', value: true }, { label: '不通过', value: false }]" /></label></div>
       <template #footer><Button label="取消" text severity="secondary" @click="retestVisible = false" /><Button label="提交复验轮次" @click="submitRetest" /></template>
+    </Dialog>
+    <Dialog v-model:visible="reopenVisible" header="重新打开缺陷" modal :style="{ width: '480px' }">
+      <div class="edit-grid single"><label>重新打开原因<Textarea v-model="reopenNote" :rows="4" placeholder="如：复测合格项现场复核再次不达标，需要重新整改" /></label><p class="dialog-tip">重新打开后关联验收项重新成为阻断依据，父级方阵/主变/并网点上的放行单立即失效。</p></div>
+      <template #footer><Button label="取消" text severity="secondary" @click="reopenVisible = false" /><Button label="确认重新打开" severity="danger" @click="submitReopen" /></template>
     </Dialog>
   </section>
 </template>
